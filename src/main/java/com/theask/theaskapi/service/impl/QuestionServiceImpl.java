@@ -2,8 +2,13 @@ package com.theask.theaskapi.service.impl;
 
 import com.theask.theaskapi.model.Question;
 import com.theask.theaskapi.repository.QuestionRepository;
+import com.theask.theaskapi.repository.QuestionRepositoryImpl;
 import com.theask.theaskapi.service.QuestionService;
+
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,23 +18,21 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionRepository questionRepository;
 
-    /**
-     * @return list of all questions from {@link QuestionRepository#findAll()} sorted by rating.
-     */
     @Override
     public List<Question> findAllSortByRating() {
-        //TODO: implement
-        return null;
-    }
+       return questionRepository.findAll()
+               .stream()
+               .sorted(Comparator.comparing(Question::getRating))
+               .collect(Collectors.toList())
+               ;
 
-    /**
-     * @param tag text tag
-     * @return list of all questions from {@link QuestionRepository#findAll()}
-     * with {@link Question#getTag()} equals to tag param.
-     */
+    }
     @Override
     public List<Question> findAllByTag(String tag) {
-        //TODO: implement
-        return null;
+        return questionRepository.findAll()
+                .stream()
+                .filter(it->it.getTag().getText().equals(tag))
+                .collect(Collectors.toList())
+                ;
     }
 }
