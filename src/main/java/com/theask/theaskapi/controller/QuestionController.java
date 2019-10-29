@@ -3,6 +3,7 @@ package com.theask.theaskapi.controller;
 import com.theask.theaskapi.model.Question;
 import com.theask.theaskapi.model.Tag;
 import com.theask.theaskapi.service.QuestionService;
+
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,9 @@ public class QuestionController {
     public List<Question> findAllByRating() {
         return questionService.findAllSortByRating();
     }
+
     @GetMapping("/api/questions-by-tag")
-    public List<Question> returnQuestionsByTag(@RequestParam String tag)
-    {
+    public List<Question> returnQuestionsByTag(@RequestParam String tag) {
         return questionService.findAllByTag(tag);
     }
 }
