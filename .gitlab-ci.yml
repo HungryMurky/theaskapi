@@ -1,0 +1,71 @@
+---
+stages:
+  - test
+  - build
+  - deploy
+
+run-tests:
+  stage: test
+  image: bellsoft/liberica-openjdk-alpine-musl:11
+  cache:
+    key: "test"
+    paths:
+      - .gradle/
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+  script:
+    - ./gradlew --quiet --no-daemon clean build jacocoTestReport
+    - grep -oE 'Total[^\%]*?[0-9]{1,3}%' build/reports/jacoco/test/html/index.html
+  artifacts:
+    when: on_failure
+    expire_in: 1 day
+    paths:
+      - build/reports/*
+  except:
+    - tags
+  tags:
+    - docker
+
+build-image:
+  stage: build
+  services:
+    - docker:dind
+  script:
+    - export DOCKER_HOST=unix:///var/run/docker.sock
+    - docker build -t theask/theask-api .
+  only:
+    - master
+    - develop
+  tags:
+    - theask-api-stg
+
+deploy-image:
+  variables:
+    DB_URL: ${DB_URL}
+    DB_USER: ${DB_USER}
+    DB_PASSWORD: ${DB_PASSWORD}
+    APP_BASE_URL: ${APP_BASE_URL}
+    APP_NAME: ${APP_NAME}
+    APP_PROFILE: ${APP_PROFILE}
+  stage: deploy
+  services:
+    - docker:dind
+  script:
+    - export DOCKER_HOST=unix:///var/run/docker.sock
+    - docker stop theask-api || true
+    - docker rm -f -v theask-api || true
+    - |
+      docker run \
+        -e DB_URL="${DB_URL}" \
+        -e DB_USER="${DB_USER}" \
+        -e DB_PASSWORD="${DB_PASSWORD}" \
+        -e APP_BASE_URL="${APP_BASE_URL}" \
+        -e APP_NAME="${APP_NAME}" \
+        -e APP_PROFILE="${APP_PROFILE}" \
+        -d --name theask-api -p 8081:8080 theask/theask-api
+  only:
+    - master
+    - develop
+  tags:
+    - dind
+    - theask-api-stg
