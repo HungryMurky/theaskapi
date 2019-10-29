@@ -20,19 +20,32 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> findAllSortByRating() {
-       return questionRepository.findAll()
-               .stream()
-               .sorted(Comparator.comparing(Question::getRating))
-               .collect(Collectors.toList())
-               ;
+        return questionRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Question::getRating))
+                .collect(Collectors.toList())
+                ;
 
     }
+
     @Override
     public List<Question> findAllByTag(String tag) {
         return questionRepository.findAll()
                 .stream()
-                .filter(it->it.getTag().getText().equals(tag))
+                .filter(it -> it.getTag().getText().equals(tag))
                 .collect(Collectors.toList())
                 ;
+    }
+
+    @Override
+    public List<Question> findTopQuestionsByTag(String tag, Integer quantity) {
+        return questionRepository.findAll()
+                .stream()
+                .filter(it -> it.getTag().getText().equals(tag))
+                .sorted(Comparator.comparing(Question::getRating).reversed())
+                .limit(quantity)
+                .collect(Collectors.toList())
+                ;
+
     }
 }

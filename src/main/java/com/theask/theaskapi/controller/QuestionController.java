@@ -27,4 +27,9 @@ public class QuestionController {
     public List<Question> returnQuestionsByTag(@RequestParam String tag) {
         return questionService.findAllByTag(tag);
     }
+
+    @GetMapping("/api/top-questions-by-tag")
+    public List<Question> returnTopQuestionsByTag(@RequestParam String tag, @RequestParam Integer quantity) {
+        return questionService.findTopQuestionsByTag(tag, quantity);
+    }
 }
