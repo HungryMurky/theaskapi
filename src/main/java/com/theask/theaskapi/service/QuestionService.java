@@ -1,6 +1,7 @@
 package com.theask.theaskapi.service;
 
 import com.theask.theaskapi.model.Question;
+
 import java.util.List;
 
 public interface QuestionService {
@@ -8,5 +9,7 @@ public interface QuestionService {
     List<Question> findAllSortByRating();
 
     List<Question> findAllByTag(String tag);
+
+    List<Question> findTopQuestionsByTag(String tag, Integer quantity);
 
 }
