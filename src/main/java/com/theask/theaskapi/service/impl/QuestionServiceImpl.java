@@ -2,7 +2,6 @@ package com.theask.theaskapi.service.impl;
 
 import com.theask.theaskapi.model.Question;
 import com.theask.theaskapi.repository.QuestionRepository;
-import com.theask.theaskapi.repository.QuestionRepositoryImpl;
 import com.theask.theaskapi.service.QuestionService;
 
 import java.util.Comparator;
@@ -23,10 +22,10 @@ public class QuestionServiceImpl implements QuestionService {
         return questionRepository.findAll()
                 .stream()
                 .sorted(Comparator.comparing(Question::getRating))
-                .collect(Collectors.toList())
-                ;
+                .collect(Collectors.toList());
 
     }
+
 
     @Override
     public List<Question> findAllByTag(String tag) {
