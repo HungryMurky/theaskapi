@@ -1,7 +1,7 @@
 package com.theask.theaskapi.repository;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-@Service
+@Repository
 public class TagRepositoryImpl implements TagRepository {
 }
