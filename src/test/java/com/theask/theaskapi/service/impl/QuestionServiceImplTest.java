@@ -73,4 +73,18 @@ class QuestionServiceImplTest {
                         .allMatch(it -> it.equals(tagJava))
         );
     }
+
+    @Test
+    void findTopQuestionsByTag() {
+        //given
+        var tag = tagJava.getText();
+        var quantity = 1;
+
+        //when
+        var result = testSubject.findTopQuestionsByTag(tag, quantity);
+
+        //then
+        assertEquals(result.size(), 1);
+        assertEquals(result.get(0).getId(), 1L);
+    }
 }
