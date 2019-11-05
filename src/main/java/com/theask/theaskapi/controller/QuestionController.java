@@ -36,7 +36,7 @@ public class QuestionController {
 
     @GetMapping("/api/questions-grouped-by-tag")
     public Map<Tag, Long> returnQuestionsGroupedByTag() {
-        return questionService.GroupQuestionsByTag();
+        return questionService.groupQuestionsByTag();
     }
 
 }

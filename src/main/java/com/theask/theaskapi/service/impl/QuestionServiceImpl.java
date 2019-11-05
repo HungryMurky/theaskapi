@@ -51,7 +51,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Map<Tag, Long> GroupQuestionsByTag() {
+    public Map<Tag, Long> groupQuestionsByTag() {
         return questionRepository.findAll()
                 .stream()
                 .collect(Collectors.groupingBy(Question::getTag, Collectors.counting()));

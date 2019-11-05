@@ -14,6 +14,6 @@ public interface QuestionService {
 
     List<Question> findTopQuestionsByTag(String tag, Integer quantity);
 
-    Map<Tag, Long> GroupQuestionsByTag();
+    Map<Tag, Long> groupQuestionsByTag();
 
 }
