@@ -23,4 +23,9 @@ public class TagServiceImpl implements TagService {
                 .sorted(Comparator.comparing(Tag::getText))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Tag save(Tag tag) {
+        return tagRepository.save(tag);
+    }
 }
