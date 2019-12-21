@@ -25,3 +25,4 @@ run-tests:
     - tags
   tags:
     - docker
+    - jenya
